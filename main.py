@@ -1,4 +1,5 @@
 import os
+import random
 import sys
 
 import pygame
@@ -179,10 +180,15 @@ h = 20
 # Option buttons
 home_button = pygame.Rect(screen_width // 2 - 55, 100, 110, h)
 clear_button = pygame.Rect(screen_width // 2 - 55, 130, 110, h)
-stats_button = pygame.Rect(screen_width // 2 - 55, 160, 110, h)
-placing_button = pygame.Rect(screen_width // 2 - 55, 190, 110, h)
-save_button = pygame.Rect(screen_width // 2 - 55, 220, 110, h)
-exit_button = pygame.Rect(screen_width // 2 - 55, 250, 110, h)
+
+clear_selected_button = pygame.Rect(screen_width // 2 - 55, 180, 110, h)
+fill_button = pygame.Rect(screen_width // 2 - 55, 210, 110, h)
+fill_rnd_button = pygame.Rect(screen_width // 2 - 55, 240, 110, h)
+save_button = pygame.Rect(screen_width // 2 - 55, 270, 110, h)
+
+stats_button = pygame.Rect(screen_width // 2 - 55, 320, 110, h)
+placing_button = pygame.Rect(screen_width // 2 - 55, 350, 110, h)
+exit_button = pygame.Rect(screen_width // 2 - 55, 380, 110, h)
 
 # Placing buttons
 previous_button = pygame.Rect(screen_width // 2 - 80 - h, 30, h * 2, h)
@@ -217,7 +223,10 @@ while running:
 # Key input
         elif event.type == pygame.KEYDOWN:
             if event.key == pygame.K_ESCAPE:
-                options = not options
+                if placing_object:
+                    placing_object = False
+                else:
+                    options = not options
             elif event.key == pygame.K_SPACE:
                 paused = not paused
             elif event.key == pygame.K_RETURN:
@@ -243,13 +252,39 @@ while running:
                 if slider_handle_rect.collidepoint(event.pos):
                     slider_dragging = True
 
+                if home_button.collidepoint(event.pos):
+                    display_offset_x = -screen_width / 2
+                    display_offset_y = -screen_height / 2
+
                 if clear_button.collidepoint(event.pos):
                     living.clear()
                     queue.clear()
 
-                if home_button.collidepoint(event.pos):
-                    display_offset_x = -screen_width / 2
-                    display_offset_y = -screen_height / 2
+                if clear_selected_button.collidepoint(event.pos):
+                    for y in range(int(selected_area[0][1]), int(selected_area[1][1]) + 1):
+                        for x in range(int(selected_area[0][0]), int(selected_area[1][0]) + 1):
+                            if (x, y) in living:
+                                living.remove((x, y))
+                            if (x, y) in queue:
+                                living.remove((x, y))
+                                queue.remove((x, y))
+
+                if fill_button.collidepoint(event.pos):
+                    for y in range(int(selected_area[0][1]), int(selected_area[1][1]) + 1):
+                        for x in range(int(selected_area[0][0]), int(selected_area[1][0]) + 1):
+                            if not (x, y) in living:
+                                living.append((x, y))
+
+                if fill_rnd_button.collidepoint(event.pos):
+                    for y in range(int(selected_area[0][1]), int(selected_area[1][1]) + 1):
+                        for x in range(int(selected_area[0][0]), int(selected_area[1][0]) + 1):
+                            rnd = random.randint(0, 1)
+                            if not (x, y) in living and rnd == 1:
+                                living.append((x, y))
+
+                if save_button.collidepoint(event.pos):
+                    if len(living) > 0:
+                        patterns.objects.append(("Custom", list(living)))
 
                 if stats_button.collidepoint(event.pos):
                     stats = not stats
@@ -258,10 +293,6 @@ while running:
                     placing_object = True
                     paused = True
                     selecting_cell = False
-
-                if save_button.collidepoint(event.pos):
-                    if len(living) > 0:
-                        patterns.objects.append(("Custom", list(living)))
 
                 if exit_button.collidepoint(event.pos):
                     running = False
@@ -485,11 +516,16 @@ while running:
         pygame.draw.rect(screen, colors.grey5, slider_rect, 2, 4)
         pygame.draw.rect(screen, colors.grey5, slider_handle_rect, border_radius=4)
 
-        draw_button(clear_button, "Clear Grid")
         draw_button(home_button, "Home")
+        draw_button(clear_button, "Clear Grid")
+
+        draw_button(clear_selected_button, "Clear Select")
+        draw_button(fill_button, "Fill Area")
+        draw_button(fill_rnd_button, "Fill Random")
+        draw_button(save_button, "Save Patern")
+
         draw_button(stats_button, "Show Stats")
         draw_button(placing_button, "Place Object")
-        draw_button(save_button, "Save Patern")
         draw_button(exit_button, "Exit")
     # Placing
     elif placing_object:
