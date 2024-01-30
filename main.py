@@ -404,7 +404,7 @@ while running:
             tile_pos_x = (event.pos[0] + display_offset_x)//tile_size
             tile_pos_y = (event.pos[1] + display_offset_y)//tile_size
             selected_tile = (tile_pos_x, tile_pos_y)
-            if pygame.mouse.get_pressed()[0] and not options and len(old_tile_pos) > 0:
+            if pygame.mouse.get_pressed()[0] and selecting_cell and not options and len(old_tile_pos) > 0:
                 selected_area = ((old_tile_pos[0], old_tile_pos[1]), (tile_pos_x, tile_pos_y))
                 if selected_area[0][0] == selected_area[1][0] and selected_area[0][1] == selected_area[1][1]:
                     area_selected = False
