@@ -167,8 +167,6 @@ old_mouse_pos = ()
 
 # Game clock
 clock = pygame.time.Clock()
-tick_speed = max(tick_speed, min_tick_speed)
-current_fps = int(clock.get_fps())
 
 # Schieberegler
 slider_rect = pygame.Rect(screen_width // 2 - 100, 70, 200, 10)
@@ -216,6 +214,8 @@ cancel_button = pygame.Rect(next_button.right + h, 52, h * 3 + 4, h)
 # Game loop
 while running:
     calcs = 0
+    tick_speed = max(tick_speed, min_tick_speed)
+    current_fps = int(clock.get_fps())
 # Check game event
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -260,9 +260,13 @@ while running:
                     living.clear()
                     queue.clear()
 
+                start_x = selected_area[0][0] if selected_area[0][0] < selected_area[1][0] else selected_area[1][0]
+                start_y = selected_area[0][1] if selected_area[0][1] < selected_area[1][1] else selected_area[1][1]
+                end_x = selected_area[1][0] if selected_area[1][0] > selected_area[0][0] else selected_area[0][0]
+                end_y = selected_area[1][1] if selected_area[1][1] > selected_area[0][1] else selected_area[0][1]
                 if clear_selected_button.collidepoint(event.pos):
-                    for y in range(int(selected_area[0][1]), int(selected_area[1][1]) + 1):
-                        for x in range(int(selected_area[0][0]), int(selected_area[1][0]) + 1):
+                    for y in range(int(start_y), int(end_y) + 1):
+                        for x in range(int(start_x), int(end_x) + 1):
                             if (x, y) in living:
                                 living.remove((x, y))
                             if (x, y) in queue:
@@ -270,14 +274,14 @@ while running:
                                 queue.remove((x, y))
 
                 if fill_button.collidepoint(event.pos):
-                    for y in range(int(selected_area[0][1]), int(selected_area[1][1]) + 1):
-                        for x in range(int(selected_area[0][0]), int(selected_area[1][0]) + 1):
+                    for y in range(int(start_y), int(end_y) + 1):
+                        for x in range(int(start_x), int(end_x) + 1):
                             if not (x, y) in living:
                                 living.append((x, y))
 
                 if fill_rnd_button.collidepoint(event.pos):
-                    for y in range(int(selected_area[0][1]), int(selected_area[1][1]) + 1):
-                        for x in range(int(selected_area[0][0]), int(selected_area[1][0]) + 1):
+                    for y in range(int(start_y), int(end_y) + 1):
+                        for x in range(int(start_x), int(end_x) + 1):
                             rnd = random.randint(0, 1)
                             if not (x, y) in living and rnd == 1:
                                 living.append((x, y))
@@ -589,12 +593,45 @@ while running:
                       'center')
     # Show stats
     if stats:
-        pygame.draw.rect(screen, colors.grey5, (-6, -6, 110, 70), border_radius=6)
-        pygame.draw.rect(screen, colors.dodgerBlue, (-6, -6, 110, 70), 2, 6)
-        draw_text(px_b_font_12, f"tps: {tick_speed}", (5, 6), colors.grey2, 'midleft')
-        draw_text(px_b_font_12, f"fps: {current_fps}", (5, 22), colors.grey2, 'midleft')
-        draw_text(px_b_font_12, f"Cells: {len(living)}", (5, 38), colors.grey2, 'midleft')
-        draw_text(px_b_font_12, f"Calcs: {calcs}", (5, 54), colors.grey2, 'midleft')
+        pygame.draw.rect(screen,
+                         colors.grey5,
+                         (screen_width - 110, screen_height - 32, 112, 70),
+                         border_top_left_radius=6)
+        pygame.draw.rect(screen,
+                         colors.dodgerBlue,
+                         (screen_width - 110, screen_height - 32, 112, 70),
+                         2,
+                         border_top_left_radius=6)
+        draw_text(px_b_font_12,
+                  f"tps: {tick_speed}",
+                  (screen_width - 105, screen_height - 24),
+                  colors.grey2,
+                  'midleft')
+        draw_text(px_b_font_12,
+                  f"fps: {current_fps}",
+                  (screen_width - 105, screen_height - 8),
+                  colors.grey2,
+                  'midleft')
+
+        pygame.draw.rect(screen, colors.grey5, (-2, screen_height - 32, 110, 38), border_top_right_radius=6)
+        pygame.draw.rect(screen, colors.dodgerBlue, (-2, screen_height - 32, 110, 38), 2, border_top_right_radius=6)
+        draw_text(px_b_font_12, f"Cells: {len(living)}", (5, screen_height - 24), colors.grey2, 'midleft')
+        draw_text(px_b_font_12, f"Calcs: {calcs}", (5, screen_height - 8), colors.grey2, 'midleft')
+
+        coord_rect = pygame.Rect(screen_width // 2 - (len(str(int(selected_tile[0]))) +
+                                                      len(str(int(selected_tile[1]))) * 9) // 2 - 45,
+                                 screen_height - 36,
+                                 (len(str(int(selected_tile[0]))) + len(str(int(selected_tile[1]))) * 9) + 90,
+                                 32)
+        pygame.draw.rect(screen, colors.grey5, coord_rect, border_radius=6)
+        pygame.draw.rect(screen, colors.dodgerBlue, coord_rect, 2, border_radius=6)
+        draw_text(px_b_font_12,
+                  f"X[{int(selected_tile[0])}] Y[{int(selected_tile[1])}]",
+                  (screen_width//2, screen_height - 26),
+                  colors.grey2,
+                  'center'
+                  )
+
     # Info text
     text_ln = "[ESC for Options]   [Enter for selecting]   [Spacebar for Pause]"
     text = px_b_font_12.render(text_ln.upper(), True, colors.grey2)
