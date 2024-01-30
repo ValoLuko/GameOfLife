@@ -1,0 +1,107 @@
+
+# Farben
+white = (255, 255, 255)
+black = (0, 0, 0)
+
+# Grün:
+green1 = (0, 255, 0)
+green2 = (0, 200, 0)
+green3 = (0, 150, 0)
+green4 = (0, 100, 0)
+green5 = (0, 50, 0)
+lime = (0, 255, 0)
+chartreuse = (127, 255, 0)
+springGreen = (0, 255, 127)
+mediumSpringGreen = (0, 250, 154)
+oliveDrab = (107, 142, 35)
+paleGreen6 = (144, 238, 144)
+paleGreen7 = (173, 255, 173)
+paleGreen8 = (200, 255, 200)
+
+
+cyan = (0, 110, 100)
+
+# Blau:
+blue1 = (0, 0, 255)
+blue2 = (0, 0, 200)
+blue3 = (0, 0, 150)
+blue4 = (0, 0, 100)
+blue5 = (0, 0, 50)
+dodgerBlue = (30, 144, 255)
+royalBlue = (65, 105, 225)
+mediumSlateBlue = (123, 104, 238)
+steelBlue = (70, 130, 180)
+navyBlue = (0, 0, 128)
+paleBlue1 = (173, 216, 230)
+paleBlue2 = (191, 239, 255)
+paleBlue3 = (208, 224, 255)
+
+# Rot:
+red1 = (255, 0, 0)
+red2 = (200, 0, 0)
+red3 = (150, 0, 0)
+red4 = (100, 0, 0)
+red5 = (50, 0, 0)
+tomato = (255, 99, 71)
+indianRed = (205, 92, 92)
+fireBrick = (178, 34, 34)
+darkRed = (139, 0, 0)
+maroon = (128, 0, 0)
+
+# Gelb:
+yellow1 = (255, 255, 0)
+yellow2 = (200, 200, 0)
+yellow3 = (150, 150, 0)
+yellow4 = (100, 100, 0)
+yellow5 = (50, 50, 0)
+gold = (255, 215, 0)
+khaki = (240, 230, 140)
+lemonChiffon = (255, 250, 205)
+paleGoldenrod = (238, 232, 170)
+lightYellow = (255, 255, 224)
+
+# Lila:
+purple1 = (255, 0, 255)
+purple2 = (200, 0, 200)
+purple3 = (150, 0, 150)
+purple4 = (100, 0, 100)
+purple5 = (50, 0, 50)
+orchid = (218, 112, 214)
+mediumOrchid = (186, 85, 211)
+darkOrchid = (153, 50, 204)
+blueViolet = (138, 43, 226)
+darkViolet = (148, 0, 211)
+
+# Orange:
+orange1 = (255, 165, 0)
+orange2 = (200, 130, 0)
+orange3 = (150, 95, 0)
+orange4 = (100, 65, 0)
+orange5 = (50, 32, 0)
+darkOrange = (255, 140, 0)
+coral = (255, 127, 80)
+sienna = (160, 82, 45)
+peru = (205, 133, 63)
+
+# Braun:
+brown1 = (165, 42, 42)
+brown2 = (139, 35, 35)
+brown3 = (120, 30, 30)
+brown4 = (80, 20, 20)
+brown5 = (40, 10, 10)
+saddleBrown = (139, 69, 19)
+rosyBrown = (188, 143, 143)
+sandyBrown = (244, 164, 96)
+chocolate = (210, 105, 30)
+
+# Grau:
+grey1 = (255, 255, 255)
+grey2 = (200, 200, 200)
+grey3 = (150, 150, 150)
+grey4 = (100, 100, 100)
+grey5 = (50, 50, 50)
+dimGrey = (105, 105, 105)
+slateGrey = (112, 128, 144)
+lightSlateGrey = (119, 136, 153)
+darkSlateGrey = (47, 79, 79)
+silver = (192, 192, 192)
